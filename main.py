@@ -18,7 +18,9 @@ def bounded_probability(value: str) -> float:
     try:
         prob = float(value)
     except ValueError as exc:
-        raise argparse.ArgumentTypeError("Probability must be a numeric value.") from exc
+        raise argparse.ArgumentTypeError(
+            "Probability must be a numeric value."
+        ) from exc
 
     if prob < 0 or prob > 1:
         raise argparse.ArgumentTypeError("Probability must be between 0 and 1.")
@@ -33,16 +35,29 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     run_parser = subparsers.add_parser("run", help="Run a simulation experiment.")
-    run_parser.add_argument("--player-a", type=bounded_probability, required=True,
-                            help="Player A cooperation probability.")
-    run_parser.add_argument("--player-b", type=bounded_probability, required=True,
-                            help="Player B cooperation probability.")
-    run_parser.add_argument("--iterations", type=int, default=1000,
-                            help="Number of runs for the experiment.")
+    run_parser.add_argument(
+        "--player-a",
+        type=bounded_probability,
+        required=True,
+        help="Player A cooperation probability.",
+    )
+    run_parser.add_argument(
+        "--player-b",
+        type=bounded_probability,
+        required=True,
+        help="Player B cooperation probability.",
+    )
+    run_parser.add_argument(
+        "--iterations",
+        type=int,
+        default=1000,
+        help="Number of runs for the experiment.",
+    )
 
     analyze_parser = subparsers.add_parser("analyze", help="Analyze stored results.")
-    analyze_parser.add_argument("--plots", action="store_true",
-                                help="Display matplotlib plots.")
+    analyze_parser.add_argument(
+        "--plots", action="store_true", help="Display matplotlib plots."
+    )
 
     return parser
 
